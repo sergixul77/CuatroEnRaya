@@ -12,9 +12,11 @@ plugins {
 }
 
 repositories {
-    // Use jcenter for resolving dependencies.
-    // You can declare any Maven/Ivy/file repository here.
-    jcenter()
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+    
+	// Repositorio jitpack.io donde están los accesos a las versiones de la librería entrada desde github
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -26,4 +28,20 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
+    
+    // Entrada para que el repositorio jitpack.io sepa acceder a la localización de librería entrada
+    api 'com.github.JRJimenezReyes:entrada:1.0.3'
+}
+
+apply plugin: 'application'
+
+mainClassName = 'org.iesalandalus.programacion.cuateroenraya.MainApp'
+
+jar {
+	manifest {
+		attributes 'Main-Class': 'org.iesalandalus.programacion.cuateroenraya.MainApp'
+	}
+	from {
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } 
+	}
 }
